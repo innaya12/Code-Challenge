@@ -22,7 +22,7 @@ const Part1 = () => {
         .get(`https://rickandmortyapi.com/api/character/${charactersIdArray.join(',')}`)            
         .then((response) => {
             mostUnpopularCharacter = { numOfEpisodes: 0, characters: [] };
-            // console.log('mostUnpopularCharacter', mostUnpopularCharacter);
+
             for (let i = 0; i < response.data.length - 1; i++) {
                 const character = response.data[i];
                 const numOfEpisodes = character.episode.length;
@@ -60,13 +60,13 @@ const Part1 = () => {
             </thead>
             <tbody>
                 {(result ? result.characters : []).map((character) => (
-                    <tr key={character.id}>
-                        <td>{character.name}</td>
-                        <td>{character.location.name}</td>
-                        <td>{character.origin.name}</td>
-                        <td>{result.numOfEpisodes}</td>
-                    </tr>
-                ))};
+                <tr key={character.id}>
+                    <td>{character.name}</td>
+                    <td>{character.location.name}</td>
+                    <td>{character.origin.name}</td>
+                    <td>{result.numOfEpisodes}</td>
+                </tr>
+                ))}
             </tbody>
         </table>
     </div>
