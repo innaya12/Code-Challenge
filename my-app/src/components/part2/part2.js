@@ -17,40 +17,40 @@ const Part2 = () => {
     const barWidth = 20;
     const barMargin = 5
     const width = urlNames.length * (barWidth + barMargin)
-    const height =  20
+    const height =  100
     let result = [];
+    let runOnlyOnce = 1; 
 
     useEffect(() => {
-        for (let i = 0; i < urlNames.length - 1; i++) {
-
-            axios
-            .get(`https://rickandmortyapi.com/api/character/?name=${urlNames[i]}`)            
-            .then((response) => {                
-                const name = response.data.results[0].name;
-                const popularity = response.data.results[0].episode.length;
-                result.push({'name': name, 'popularity': popularity });
-            })
+    console.log(' useeffect ');
+    if(runOnlyOnce === 1){
+        runOnlyOnce++
+            for (let i = 0; i < urlNames.length; i++) {
+                axios
+                .get(`https://rickandmortyapi.com/api/character/?name=${urlNames[i]}`)            
+                .then((response) => {
+                    console.log('result1', result)
+                    result.push({'name': response.data.results[0].name, 'popularity': response.data.results[0].episode.length });
+                    setData([...result]); 
+                })
+            }
         }
-        setData(result); 
     }, []);
-
-
-
+       
     return (
         <div>
             <h1>Popularity bar chart</h1>
-            {data.length > 1 && 
             <Chart height={height} width={width}>
-                {result.map((data,index)=> 
-                ( <Bar key={data.name}
-                    x={index * (barWidth + barMargin)}
-                    y={height - data.popularity}
-                    width={barWidth}
-                    height={data.popularity} />
-                    )
-                )}
+                {data.map((data,index)=> {
+                    return (
+                        <Bar key={data.name}
+                        x={index * (barWidth + barMargin)}
+                        y={height - data.popularity}
+                        width={barWidth}
+                        height={data.popularity} />
+                        )
+                    })}
             </Chart>
-            }
         </div>
     )
 };
